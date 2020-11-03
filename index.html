@@ -94,9 +94,9 @@
               <button
                 type="button"
                 class="btn btn-dark nav-link"
-                onclick="testAPI()"
+                onclick="listAlbums()"
               >
-                TEST
+                LIST ALBUMS
               </button>
             </li>
             <li class="nav-item">
@@ -1905,7 +1905,8 @@
     <!-- End PLAYER -->
     <script src="spotify.js"></script>
     <script>
-      function testAPI() {
+      window.onload = function () {
+        // EMINEM
         fetch("https://rapidapi.p.rapidapi.com/search?q=eminem", {
           method: "GET",
           headers: {
@@ -1915,13 +1916,226 @@
           },
         })
           .then((response) => {
-            response.json();
+            response.json().then((parsedJson) => {
+              let eminemSongs = parsedJson.data;
+              console.log(eminemSongs);
+              ///////////////SELECT CURRENT CARDS AS ARRAY
+              let cards = document.querySelectorAll(
+                "#list-trending > .container-fluid > .row:nth-of-type(2) .card"
+              );
+              console.log(cards[0]);
+              ///////////////FOR LOOP TO REPLACE DATA IN CURRENT CARDS
+              for (let i = 0; i < cards.length; i++) {
+                let cardImg = cards[i].firstElementChild;
+                let cardTitle = cards[i].lastElementChild;
+                let targetImg = parsedJson.data[i].album.cover_big;
+                let targetTitle = parsedJson.data[i].title;
+                cardImg.src = targetImg;
+                cardTitle.firstElementChild.innerText = targetTitle;
+              }
+              //////////////SELECT ROW WITH CARDS
+              let row = cards[0].parentNode.parentNode;
+              //////////////FOR LOOP TO CREATE NEW CARDS
+              for (let i = cards.length; i < eminemSongs.length - 1; i++) {
+                //CREATE CARD ELEMENTS
+                let divCont = document.createElement("div");
+                let divCard = document.createElement("div");
+                let newCardImg = document.createElement("img");
+                let newCardBody = document.createElement("div");
+                let newCardTitle = document.createElement("p");
+                let newCardAlbum = document.createElement("p");
+                //GETTING DATA FROM ARRAY
+                let newTargetImg = parsedJson.data[i].album.cover_big;
+                let newTargetTitle = parsedJson.data[i].title;
+                let newTargetAlbum = parsedJson.data[i].album.title;
+                //ADDING CLASSES TO NEW ELEMENTS
+                divCont.classList.add(
+                  "col",
+                  "col-12",
+                  "col-sm-6",
+                  "col-lg-4",
+                  "col-xl-2"
+                );
+                divCard.classList.add("card");
+                newCardImg.classList.add("card-img-top");
+                newCardBody.classList.add("card-body");
+                newCardTitle.classList.add("card-text", "text-center", "mb-0");
+                newCardAlbum.classList.add(
+                  "card-text",
+                  "text-center",
+                  "text-muted"
+                );
+                //GIVING DATA TO NEW ELEMENTS
+                newCardImg.src = newTargetImg;
+                newCardTitle.innerText = newTargetTitle;
+                newCardAlbum.innerText = newTargetAlbum;
+                //APPENDING ELEMENTS TO BODY
+                newCardBody.appendChild(newCardTitle);
+                newCardBody.appendChild(newCardAlbum);
+                divCard.appendChild(newCardImg);
+                divCard.appendChild(newCardBody);
+                divCont.appendChild(divCard);
+                row.appendChild(divCont);
+              }
+              ////////////////CHANGING ROW TITLE TO ARTIST NAME
+              let titleRow = document.querySelector(
+                "#list-trending > .container-fluid > .row:nth-of-type(1)"
+              );
+              let artist = parsedJson.data[0].artist.name;
+              titleRow.firstElementChild.innerText = artist;
+            });
           })
-          .then((parsedJson) => console.log(parsedJson))
           .catch((err) => {
             console.error(err);
           });
-      }
+        //METALLICA
+        fetch("https://rapidapi.p.rapidapi.com/search?q=metallica", {
+          method: "GET",
+          headers: {
+            "x-rapidapi-key":
+              "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
+            "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+          },
+        })
+          .then((response) => {
+            response.json().then((parsedJson) => {
+              let metallicaSongs = parsedJson.data;
+              console.log(metallicaSongs);
+              //
+              let cards = document.querySelectorAll(
+                "#list-trending > .container-fluid > .row:nth-of-type(4) .card"
+              );
+              for (let i = 0; i < cards.length; i++) {
+                let cardImg = cards[i].firstElementChild;
+                let cardTitle = cards[i].lastElementChild;
+                let targetImg = parsedJson.data[i].album.cover_big;
+                let targetTitle = parsedJson.data[i].title;
+                cardImg.src = targetImg;
+                cardTitle.firstElementChild.innerText = targetTitle;
+              }
+              let row = cards[0].parentNode.parentNode;
+              for (let i = cards.length; i < metallicaSongs.length - 1; i++) {
+                let divCont = document.createElement("div");
+                divCont.classList.add(
+                  "col",
+                  "col-12",
+                  "col-sm-6",
+                  "col-lg-4",
+                  "col-xl-2"
+                );
+                let divCard = document.createElement("div");
+                divCard.classList.add("card");
+                let newCardImg = document.createElement("img");
+                let newTargetImg = parsedJson.data[i].album.cover_big;
+                newCardImg.src = newTargetImg;
+                newCardImg.classList.add("card-img-top");
+                let newCardBody = document.createElement("div");
+                newCardBody.classList.add("card-body");
+                let newCardTitle = document.createElement("p");
+                newCardTitle.classList.add("card-text", "text-center", "mb-0");
+                let newCardAlbum = document.createElement("p");
+                newCardAlbum.classList.add(
+                  "card-text",
+                  "text-center",
+                  "text-muted"
+                );
+                let newTargetTitle = parsedJson.data[i].title;
+                let newTargetAlbum = parsedJson.data[i].album.title;
+                newCardTitle.innerText = newTargetTitle;
+                newCardAlbum.innerText = newTargetAlbum;
+                newCardBody.appendChild(newCardTitle);
+                newCardBody.appendChild(newCardAlbum);
+                divCard.appendChild(newCardImg);
+                divCard.appendChild(newCardBody);
+                divCont.appendChild(divCard);
+                row.appendChild(divCont);
+              }
+              let titleRow = document.querySelector(
+                "#list-trending > .container-fluid > .row:nth-of-type(3)"
+              );
+              let artist = parsedJson.data[0].artist.name;
+              titleRow.firstElementChild.innerText = artist;
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+        // BEHEMOTH
+        fetch("https://rapidapi.p.rapidapi.com/search?q=behemoth", {
+          method: "GET",
+          headers: {
+            "x-rapidapi-key":
+              "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
+            "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+          },
+        })
+          .then((response) => {
+            response.json().then((parsedJson) => {
+              let behemothSongs = parsedJson.data;
+              console.log(behemothSongs);
+              // Overwrite current card info
+              let cards = document.querySelectorAll(
+                "#list-trending > .container-fluid > .row:nth-of-type(6) .card"
+              );
+              console.log(cards[0]);
+              for (let i = 0; i < cards.length; i++) {
+                let cardImg = cards[i].firstElementChild;
+                let cardTitle = cards[i].lastElementChild;
+                let targetImg = parsedJson.data[i].album.cover_big;
+                let targetTitle = parsedJson.data[i].title;
+                cardImg.src = targetImg;
+                cardTitle.firstElementChild.innerText = targetTitle;
+              }
+              let row = cards[0].parentNode.parentNode;
+              // for loop to create new cards
+              for (let i = cards.length; i < behemothSongs.length - 1; i++) {
+                let divCont = document.createElement("div");
+                divCont.classList.add(
+                  "col",
+                  "col-12",
+                  "col-sm-6",
+                  "col-lg-4",
+                  "col-xl-2"
+                );
+                let divCard = document.createElement("div");
+                divCard.classList.add("card");
+                let newCardImg = document.createElement("img");
+                let newTargetImg = parsedJson.data[i].album.cover_big;
+                newCardImg.src = newTargetImg;
+                newCardImg.classList.add("card-img-top");
+                let newCardBody = document.createElement("div");
+                newCardBody.classList.add("card-body");
+                let newCardTitle = document.createElement("p");
+                newCardTitle.classList.add("card-text", "text-center", "mb-0");
+                let newCardAlbum = document.createElement("p");
+                newCardAlbum.classList.add(
+                  "card-text",
+                  "text-center",
+                  "text-muted"
+                );
+                let newTargetTitle = parsedJson.data[i].title;
+                let newTargetAlbum = parsedJson.data[i].album.title;
+                newCardTitle.innerText = newTargetTitle;
+                newCardAlbum.innerText = newTargetAlbum;
+                newCardBody.appendChild(newCardTitle);
+                newCardBody.appendChild(newCardAlbum);
+                divCard.appendChild(newCardImg);
+                divCard.appendChild(newCardBody);
+                divCont.appendChild(divCard);
+                row.appendChild(divCont);
+              }
+              // Change row title
+              let titleRow = document.querySelector(
+                "#list-trending > .container-fluid > .row:nth-of-type(5)"
+              );
+              let artist = parsedJson.data[1].artist.name;
+              titleRow.firstElementChild.innerText = "Search: " + artist;
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      };
     </script>
     <script
       type="application/javascript"
