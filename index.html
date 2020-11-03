@@ -96,7 +96,7 @@
                 class="btn btn-dark nav-link"
                 onclick="listAlbums()"
               >
-                LIST ALBUMS
+                UNIQUE ALBUMS
               </button>
             </li>
             <li class="nav-item">
@@ -1906,7 +1906,7 @@
     <script src="spotify.js"></script>
     <script>
       window.onload = function () {
-        // EMINEM
+        ///////////////////////////////////////////////////////////////////////////////// EMINEM
         fetch("https://rapidapi.p.rapidapi.com/search?q=eminem", {
           method: "GET",
           headers: {
@@ -1988,7 +1988,7 @@
           .catch((err) => {
             console.error(err);
           });
-        //METALLICA
+        ///////////////////////////////////////////////////////////////////////////METALLICA
         fetch("https://rapidapi.p.rapidapi.com/search?q=metallica", {
           method: "GET",
           headers: {
@@ -2136,6 +2136,30 @@
             console.error(err);
           });
       };
+
+      function listAlbums() {
+        let albums = document.querySelectorAll(
+          "#list-trending > .container-fluid > .row .card .text-muted"
+        );
+        console.log(albums);
+        let uniqueAlbums = [];
+        for (let i = 0; i < albums.length; i++) {
+          let albumName = albums[i].innerText;
+          if (!uniqueAlbums.includes(albumName)) {
+            uniqueAlbums.push(albumName);
+          }
+        }
+        console.log(uniqueAlbums);
+        let navbarLocation = document.querySelector(
+          "#navbarNavDropdown > ul > div > div"
+        );
+        let numberUnique = document.createElement("p");
+        numberUnique.innerText =
+          "There are " + uniqueAlbums.length + " unique albums";
+        numberUnique.classList.add("text-secondary");
+        navbarLocation.appendChild(numberUnique);
+        alert(uniqueAlbums);
+      }
     </script>
     <script
       type="application/javascript"
