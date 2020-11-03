@@ -2060,7 +2060,7 @@
           .catch((err) => {
             console.error(err);
           });
-        // BEHEMOTH
+        ///////////////////////////////////////////////////////////////////////// BEHEMOTH
         fetch("https://rapidapi.p.rapidapi.com/search?q=behemoth", {
           method: "GET",
           headers: {
@@ -2159,16 +2159,17 @@
         numberUnique.classList.add("text-secondary");
         navbarLocation.appendChild(numberUnique);
 
-        let albumUl = document.createElement("ul");
-        navbarLocation.appendChild(albumUl);
+        let albumOl = document.createElement("ol");
+        navbarLocation.appendChild(albumOl);
         for (let i = 0; i < uniqueAlbums.length; i++) {
           let album = document.createElement("li");
           album.classList.add("nav-item");
           album.innerText = uniqueAlbums[i];
-          albumUl.appendChild(album);
+          album.style.color = "white";
+          albumOl.appendChild(album);
         }
-        albumUl.style.height = "400px";
-        albumUl.style.overflowY = "scroll";
+        albumOl.style.height = "400px";
+        albumOl.style.overflowY = "scroll";
       }
     </script>
     <script
