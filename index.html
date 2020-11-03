@@ -2151,14 +2151,24 @@
         }
         console.log(uniqueAlbums);
         let navbarLocation = document.querySelector(
-          "#navbarNavDropdown > ul > div > div"
+          "#navbarNavDropdown > ul > div"
         );
         let numberUnique = document.createElement("p");
         numberUnique.innerText =
-          "There are " + uniqueAlbums.length + " unique albums";
+          "There are " + uniqueAlbums.length + " unique albums:";
         numberUnique.classList.add("text-secondary");
         navbarLocation.appendChild(numberUnique);
-        alert(uniqueAlbums);
+
+        let albumUl = document.createElement("ul");
+        navbarLocation.appendChild(albumUl);
+        for (let i = 0; i < uniqueAlbums.length; i++) {
+          let album = document.createElement("li");
+          album.classList.add("nav-item");
+          album.innerText = uniqueAlbums[i];
+          albumUl.appendChild(album);
+        }
+        albumUl.style.height = "400px";
+        albumUl.style.overflowY = "scroll";
       }
     </script>
     <script
